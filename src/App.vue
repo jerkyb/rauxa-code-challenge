@@ -1,17 +1,19 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+  <section id="app">
+    <SceneContainer />
+    <SceneConfigurator />
+  </section>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import SceneContainer from "./components/SceneContainer.vue";
+import SceneConfigurator from "./components/SceneConfigurator";
 
 export default {
   name: "App",
   components: {
-    HelloWorld
+    SceneContainer,
+    SceneConfigurator
   }
 };
 </script>
