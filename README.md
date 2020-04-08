@@ -36,6 +36,9 @@ This exercise uses custom CSS with layout components to encapsulate and reuse co
 - :white_check_mark: Updating primitive colors when clicking buttons
 - :white_check_mark: Animated primitive
 
+## Resume
+
+Uploaded [here](https://github.com/jerkyb/rauxa-code-challenge/blob/master/2020-andrew-gil-FE.docx):
 ## Project setup
 
 ```
