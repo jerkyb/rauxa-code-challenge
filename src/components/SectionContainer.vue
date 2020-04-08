@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "SectionContainer"
+  name: "SectionContainer",
 };
 </script>
 
@@ -17,8 +17,6 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0 auto 20px auto;
-  max-width: 800px;
   padding: 20px;
 }
 </style>

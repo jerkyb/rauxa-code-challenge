@@ -1,19 +1,110 @@
 <template>
   <SectionContainer>
-    <h1>Awesome 3D Scene</h1>
-    <SceneCanvas />
+    <h1>ThreeJs Scene</h1>
+    <canvas id="canvas" ref="canvas"></canvas>
+    <SceneConfigurator :colors="colors" />
   </SectionContainer>
 </template>
 
 <script>
+import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import SectionContainer from "./SectionContainer";
-import SceneCanvas from "./SceneCanvas";
+import SceneConfigurator from "./SceneConfigurator";
 
 export default {
   name: "SceneContainer",
   components: {
     SectionContainer,
-    SceneCanvas
+    SceneConfigurator
+  },
+  data() {
+    return {
+      colors: [
+        {
+          label: "Green",
+          hex: "#00ff00"
+        },
+        {
+          label: "Red",
+          hex: "#8e1600"
+        },
+        {
+          label: "Blue",
+          hex: "#bfe6ff"
+        }
+      ],
+      cube: null,
+      renderer: null,
+      scene: null,
+      camera: null
+    };
+  },
+  methods: {
+    init3DScene: function() {
+      this.scene = new THREE.Scene();
+      this.scene.background = new THREE.Color(0xb3b3bc);
+      this.gltfLoader = new GLTFLoader();
+      this.gltfLoader.load("/gltf/scene.gltf", gltf => {
+        let shoe = gltf.scene.children[0];
+        console.log(shoe);
+        shoe.position.x = -2;
+        shoe.rotation.x = 15;
+        shoe.rotation.y = 9;
+        shoe.scale.set(0.5, 0.5, 0.5);
+        this.scene.add(gltf.scene);
+      });
+      const cameraConfig = [
+        75,
+        this.$refs.canvas.clientWidth / this.$refs.canvas.clientHeight,
+        1,
+        1000
+      ];
+      const renderConfig = {
+        canvas: this.$refs.canvas,
+        alpha: true,
+        antialias: true
+      };
+
+      this.camera = new THREE.PerspectiveCamera(...cameraConfig);
+      this.renderer = new THREE.WebGLRenderer(renderConfig);
+      this.renderer.setSize(
+        this.$refs.canvas.clientWidth,
+        this.$refs.canvas.clientHeight
+      );
+      document.body.appendChild(this.renderer.domElement);
+
+      const greyPointLight = new THREE.PointLight(0xc4c4c4, 10);
+      greyPointLight.position.set(0, 300, 500);
+      this.scene.add(greyPointLight);
+
+      const darkBluePointLight = new THREE.PointLight(0x222652, 10);
+      darkBluePointLight.position.set(500, 100, 0);
+      this.scene.add(darkBluePointLight);
+
+      let hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+      this.scene.add(hemisphereLight);
+
+      const geometry = new THREE.BoxGeometry(1, 1, 1);
+      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+      this.cube = new THREE.Mesh(geometry, material);
+      this.cube.position.x = 3;
+      this.cube.position.y = 1;
+      this.scene.add(this.cube);
+
+      this.camera.position.z = 5;
+    },
+    animateCube: function() {
+      requestAnimationFrame(this.animateCube);
+
+      this.cube.rotation.x += 0.01;
+      this.cube.rotation.y += 0.01;
+      this.renderer.render(this.scene, this.camera);
+    }
+  },
+  mounted() {
+    this.init3DScene();
+    this.animateCube();
   }
 };
 </script>
@@ -22,5 +113,11 @@ export default {
 <style scoped lang="scss">
 h1 {
   font-size: 24px;
+}
+#canvas {
+  display: block;
+  margin: 20px auto;
+  height: 100%;
+  width: 100%;
 }
 </style>

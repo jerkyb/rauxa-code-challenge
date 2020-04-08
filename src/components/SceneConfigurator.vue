@@ -1,10 +1,8 @@
 <template>
   <SectionContainer>
-    <h2>Scene Configuration</h2>
+    <h2>Scene Color and Texurue Configuration</h2>
     <ButtonGroup>
-      <Button>Color</Button>
-      <Button>Color</Button>
-      <Button>Color</Button>
+      <Button v-for="(color, index) in colors" :key="index" :color="color.hex">{{color.label}}</Button>
     </ButtonGroup>
     <ButtonGroup>
       <Button>Texture</Button>
@@ -23,6 +21,11 @@ export default {
     SectionContainer,
     ButtonGroup,
     Button
+  },
+  props: {
+    colors: {
+      type: Array
+    }
   }
 };
 </script>

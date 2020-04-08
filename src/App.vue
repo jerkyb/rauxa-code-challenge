@@ -1,19 +1,16 @@
 <template>
   <section id="app">
     <SceneContainer />
-    <SceneConfigurator />
   </section>
 </template>
 
 <script>
 import SceneContainer from "./components/SceneContainer.vue";
-import SceneConfigurator from "./components/SceneConfigurator";
 
 export default {
   name: "App",
   components: {
-    SceneContainer,
-    SceneConfigurator
+    SceneContainer
   }
 };
 </script>
@@ -25,6 +22,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 60px auto 0 auto;
 }
 </style>
