@@ -4,7 +4,7 @@ This project is setup using the Vue CLI.
 
 ## Project Notes
 
-I tried to setup the project as much as I could with consideration as to how I'd set up a resuable layout. The layout components
+I tried to setup the project as much as I could with consideration as to how I'd set up a resuable layout. For example:
 
 ```
 ButtonGroup
@@ -16,9 +16,9 @@ and
 SectionContainer
 ```
 
-Are components I'd usually create under directory for layouts that can be used as templates across a large enterprise site or application. In the time spent I was able to successfully load a primitive, load a model, update colors, and animate the primitive. I ran into issues with three.js integration with Vue.js, but I think that had more to do with my experience with three.js. 
+Are components I'd usually create under a directory for layouts that can be used as templates across a large enterprise site or application. 
 
-A project setup with **AFRAME** is probably more ideal for rapid development on an enterprise level application. (I wanted to display basic competency for this exercise)
+In the time spent I was able to successfully load a primitive, load a model, add lighting, update colors, and animate the primitive. I ran into issues with three.js integration with Vue.js, but I think that had more to do with my experience level with three.js. A project setup with **AFRAME** is probably more ideal for rapid development on an enterprise level application. (I wanted to display basic competency for this exercise)
 
 ## NPM Modules used
 
@@ -30,11 +30,11 @@ This exercise uses custom CSS with layout components to encapsulate and reuse co
 
 ## Completed Challenges
 
-:white_check_mark: Load a primitive
-:white_check_mark: Load a gLTF model
-:white_check_mark: Added scene lighting
-:white_check_mark: Updating primitive colors when clicking buttons
-:white_check_mark: Animated primitive
+- :white_check_mark: Load a primitive
+- :white_check_mark: Load a gLTF model
+- :white_check_mark: Added scene lighting
+- :white_check_mark: Updating primitive colors when clicking buttons
+- :white_check_mark: Animated primitive
 
 ## Project setup
 
