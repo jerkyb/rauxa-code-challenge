@@ -2,16 +2,14 @@
   <SectionContainer>
     <h1>ThreeJs Scene</h1>
     <canvas id="canvas" ref="canvas"></canvas>
-    <SceneConfigurator
-      :colors="colors"
-      @onColorChange="updateMaterialColor($event)"
-    />
+    <SceneConfigurator :colors="colors" />
   </SectionContainer>
 </template>
 
 <script>
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { EventBus } from "../main";
 import SectionContainer from "./SectionContainer";
 import SceneConfigurator from "./SceneConfigurator";
 
@@ -37,6 +35,7 @@ export default {
           hex: "#bfe6ff",
         },
       ],
+      selectedColor: "#00ff00",
       cube: null,
       material: null,
       renderer: null,
@@ -45,9 +44,9 @@ export default {
     };
   },
   methods: {
-    init3DScene: function() {
+    init3DScene() {
       this.scene = new THREE.Scene();
-      this.scene.background = new THREE.Color("#b3b3bc");
+      this.scene.background = new THREE.Color("#fff");
       this.gltfLoader = new GLTFLoader();
       this.gltfLoader.load("/gltf/scene.gltf", (gltf) => {
         let shoe = gltf.scene.children[0];
@@ -91,7 +90,11 @@ export default {
       this.scene.add(hemisphereLight);
 
       const geometry = new THREE.BoxGeometry(1, 1, 1);
-      this.material = new THREE.MeshBasicMaterial({ color: "#00ff00" });
+      this.material = new THREE.MeshBasicMaterial({
+        color: this.selectedColor
+      });
+      this.material.needsUpdate = true;
+      
       this.cube = new THREE.Mesh(geometry, this.material);
       this.cube.position.x = 3;
       this.cube.position.y = 1;
@@ -99,22 +102,24 @@ export default {
 
       this.camera.position.z = 5;
     },
-    animateCube: function() {
+    animateCube() {
       requestAnimationFrame(this.animateCube);
 
       this.cube.rotation.x += 0.01;
       this.cube.rotation.y += 0.01;
       this.renderer.render(this.scene, this.camera);
     },
-    updateMaterialColor: (color) => {
-      const geometry = new THREE.BoxGeometry(1, 1, 1);
-      this.material = new THREE.MeshBasicMaterial({ color: color });
-      this.cube = new THREE.Mesh(geometry, this.material);
-    },
+    setColor() {
+      this.cube.material.color.set(this.selectedColor);
+    }
   },
   mounted() {
     this.init3DScene();
     this.animateCube();
+    EventBus.$on("colorChange", (color) => {
+      this.selectedColor = color;
+      this.setColor();
+    });
   },
 };
 </script>

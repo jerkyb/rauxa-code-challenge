@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import SceneContainer from "./components/SceneContainer.vue";
+import SceneContainer from "./components/SceneContainer";
 
 export default {
   name: "App",

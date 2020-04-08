@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { EventBus } from "../main";
 export default {
   name: "Button",
   props: {
@@ -14,7 +15,7 @@ export default {
   },
   methods: {
     updateColor() {
-      this.$emit("onColorChange", this.color);
+      EventBus.$emit("colorChange", this.color);
     },
   },
   computed: {
