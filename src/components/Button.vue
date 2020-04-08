@@ -1,5 +1,5 @@
 <template>
-  <button :style="{ backgroundColor: bgColor }">
+  <button :style="{ backgroundColor: bgColor }" @click="updateColor">
     <slot>Button</slot>
   </button>
 </template>
@@ -9,14 +9,19 @@ export default {
   name: "Button",
   props: {
     color: {
-      type: String
-    }
+      type: String,
+    },
+  },
+  methods: {
+    updateColor() {
+      this.$emit("onColorChange", this.color);
+    },
   },
   computed: {
     bgColor() {
       return this.color;
-    }
-  }
+    },
+  },
 };
 </script>
 

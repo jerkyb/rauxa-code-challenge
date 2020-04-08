@@ -2,7 +2,10 @@
   <SectionContainer>
     <h1>ThreeJs Scene</h1>
     <canvas id="canvas" ref="canvas"></canvas>
-    <SceneConfigurator :colors="colors" />
+    <SceneConfigurator
+      :colors="colors"
+      @onColorChange="updateMaterialColor($event)"
+    />
   </SectionContainer>
 </template>
 
@@ -16,38 +19,38 @@ export default {
   name: "SceneContainer",
   components: {
     SectionContainer,
-    SceneConfigurator
+    SceneConfigurator,
   },
   data() {
     return {
       colors: [
         {
           label: "Green",
-          hex: "#00ff00"
+          hex: "#00ff00",
         },
         {
           label: "Red",
-          hex: "#8e1600"
+          hex: "#8e1600",
         },
         {
           label: "Blue",
-          hex: "#bfe6ff"
-        }
+          hex: "#bfe6ff",
+        },
       ],
       cube: null,
+      material: null,
       renderer: null,
       scene: null,
-      camera: null
+      camera: null,
     };
   },
   methods: {
     init3DScene: function() {
       this.scene = new THREE.Scene();
-      this.scene.background = new THREE.Color(0xb3b3bc);
+      this.scene.background = new THREE.Color("#b3b3bc");
       this.gltfLoader = new GLTFLoader();
-      this.gltfLoader.load("/gltf/scene.gltf", gltf => {
+      this.gltfLoader.load("/gltf/scene.gltf", (gltf) => {
         let shoe = gltf.scene.children[0];
-        console.log(shoe);
         shoe.position.x = -2;
         shoe.rotation.x = 15;
         shoe.rotation.y = 9;
@@ -58,12 +61,12 @@ export default {
         75,
         this.$refs.canvas.clientWidth / this.$refs.canvas.clientHeight,
         1,
-        1000
+        1000,
       ];
       const renderConfig = {
         canvas: this.$refs.canvas,
         alpha: true,
-        antialias: true
+        antialias: true,
       };
 
       this.camera = new THREE.PerspectiveCamera(...cameraConfig);
@@ -74,20 +77,22 @@ export default {
       );
       document.body.appendChild(this.renderer.domElement);
 
-      const greyPointLight = new THREE.PointLight(0xc4c4c4, 10);
-      greyPointLight.position.set(0, 300, 500);
+      const greyPointLight = new THREE.PointLight("#c4c4c4", 10);
       this.scene.add(greyPointLight);
 
-      const darkBluePointLight = new THREE.PointLight(0x222652, 10);
-      darkBluePointLight.position.set(500, 100, 0);
+      const darkBluePointLight = new THREE.PointLight("#222652", 10);
       this.scene.add(darkBluePointLight);
 
-      let hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+      const hemisphereLight = new THREE.HemisphereLight(
+        "#ffffbb",
+        "#080820",
+        1
+      );
       this.scene.add(hemisphereLight);
 
       const geometry = new THREE.BoxGeometry(1, 1, 1);
-      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-      this.cube = new THREE.Mesh(geometry, material);
+      this.material = new THREE.MeshBasicMaterial({ color: "#00ff00" });
+      this.cube = new THREE.Mesh(geometry, this.material);
       this.cube.position.x = 3;
       this.cube.position.y = 1;
       this.scene.add(this.cube);
@@ -100,12 +105,17 @@ export default {
       this.cube.rotation.x += 0.01;
       this.cube.rotation.y += 0.01;
       this.renderer.render(this.scene, this.camera);
-    }
+    },
+    updateMaterialColor: (color) => {
+      const geometry = new THREE.BoxGeometry(1, 1, 1);
+      this.material = new THREE.MeshBasicMaterial({ color: color });
+      this.cube = new THREE.Mesh(geometry, this.material);
+    },
   },
   mounted() {
     this.init3DScene();
     this.animateCube();
-  }
+  },
 };
 </script>
 

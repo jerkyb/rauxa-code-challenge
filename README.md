@@ -2,6 +2,14 @@
 
 This project is setup using the Vue CLI.
 
+## NPM Modules
+
+- [three](https://www.npmjs.com/package/three)
+
+## CSS
+
+This exerise uses custom CSS with layout components to encapsulate and reuse containers. For a larger project a framework such as [buefy](https://buefy.org/) would be suitable to allow for faster development.
+
 ## Project setup
 
 ```
